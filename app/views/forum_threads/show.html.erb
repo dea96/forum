@@ -1,0 +1,54 @@
+<div class='row'>
+    <div class='col-md-6 col-md-offset-3'>
+        <div class='thread'>
+            <h4><%= @thread.title.titleize %></h4>
+            <div class='meta'>
+                <%= I18n.l(@thread.created_at.to_date) %> Oleh <%= @thread.user.name %>
+            </div>
+            <div class='content'>
+                <%= @thread.content %>
+            </div>
+            <% if policy(@thread).edit? %>
+                <div class='action'>
+                    <%= link_to 'Edit', edit_forum_thread_path(@thread), class: 'btn' %>
+                    <%= link_to 'Delete', forum_thread_path(@thread), method: :delete, data: {confirm: 'Yakin?'}, class: 'btn' %>
+                </div>
+            <% end %>
+        </div>
+        <% if @thread.forum_posts.any? %>
+            <% @posts.each do |p| %>
+                <div class='thread'>
+                    <div class='meta'>
+                        <%= I18n.l(p.created_at.to_date) %> Oleh <%= p.user.name %>
+                    </div>
+                    <div class='content'>
+                        <%= p.content %>
+                    </div>
+                </div>
+            <% end %>
+            <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+        <% else %>
+            <div>
+                Jadilah yang pertama memberikan tanggapan.
+            </div>
+        <% end %>
+        <% if @post.errors.any? %>
+            <div class='alert alert-danger'>
+                <% @post.errors.full_messages.each do |error| %>
+                    <span><%= error %></span><br>
+                <% end %>
+            </div>
+        <% end %>
+        <% if user_signed_in? %>
+            <%= form_for [@thread, @post] do |f| %>
+                <div class='form-group'>
+                    <%= f.label :content, class: 'control-label' %>
+                    <%= f.text_area :content, rows: 10 ,class: 'form-control' %>
+                </div>
+                <div class='form-group'>
+                    <%= f.submit "Buat", class: 'btn btn-primary' %>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class='row'>
+    <div class='col-md-6 col-md-offset-3'>
+    <% if user_signed_in? %>
+        <%= link_to "Buat Diskusi", new_forum_thread_path, class: 'btn btn-primary' %>
+    <% end %>
+        <% @threads.each do |t| %>
+            <div class='thread'>
+                <h4><%= link_to t.title.titleize, forum_thread_path(t) %><% if t.sticky? %> <span class='glyphicon glyphicon-pushpin'></span><% end %></h4>
+                <div class='meta'>
+                    <%= I18n.l(t.created_at.to_date) %> Oleh <%= t.user.name %>
+                </div>
+                <div class='content'>
+                    <%= truncate t.content, length: 200 %>
+                </div>
+                <div class='action' style='float: left'>
+                    <%= link_to 'Pin It', pinit_forum_thread_path(t), class: 'btn', method: :put %>
+                </div>
+                <div class='count'>
+                    <%= t.forum_posts.count %> Obrolan
+                </div>
+                <div class='both'>
+                </div>
+            </div>
+        <% end %>
+        <%= will_paginate @threads, renderer: BootstrapPagination::Rails %>
+    </div>
+</div>

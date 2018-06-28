@@ -1,0 +1,20 @@
+.meta{
+    margin-bottom: 10px;
+}
+
+.content{
+    margin-bottom: 10px;
+}
+
+.count{
+    float: right;
+}
+
+.thread{
+    margin-bottom: 20px;
+    border-bottom: 1px solid #000000;
+}
+
+.both{
+    clear: both;
+}
