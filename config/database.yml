@@ -49,4 +49,4 @@ test:
 #
 production:
   adapter: postgresql
-  password: <%= ENV['FORUM_DATABASE_PASSWORD'] %>
+  database: forum_production
